@@ -53,7 +53,7 @@ export default function Page({
   const [update, setUpdate]: any = React.useState();
   const [visibility, setVisibility] = React.useState(false);
 
-  const { data: user, error, isLoading } = useSWR(`/api/user/with-session`, userFetcher);
+  const { data: user, error } = useSWR(`/api/user/with-session`, userFetcher);
   const {
     data: entry,
     mutate,
@@ -75,7 +75,6 @@ export default function Page({
     mutate();
   };
 
-  if (isLoading) return <></>;
   if ((user && user._id !== userId) || error) return <>not authorized</>; // todo : add not authorized page
   return (
     <>
@@ -83,7 +82,7 @@ export default function Page({
         <title>/user/entry/{title}</title>
       </Head>
       <React.Suspense>
-        {entry ? (
+        {user && entry ? (
           <div className={css.p1}>
             <MotionDiv className={styles.Card}>
               <h2

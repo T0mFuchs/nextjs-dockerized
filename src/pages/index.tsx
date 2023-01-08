@@ -81,12 +81,12 @@ export default function Page() {
 
   const { push } = useRouter();
 
-  const { data: user, isLoading } = useSWR(
+  const { data: user } = useSWR(
     `/api/user/with-session`,
     userFetcher,
     {
       loadingTimeout: 1500,
-      onLoadingSlow: () => <div className={css.center}>`cluster starting`</div>,
+      onLoadingSlow: () => <div className={css.center}>cluster starting...</div>,
     }
   );
   const {
@@ -98,7 +98,6 @@ export default function Page() {
     entriesFetcher
   );
 
-  if (isLoading) return <></>;
   if (user && !user.emailVerified) {
     setTimeout(() => push("/auth/new-user"), 1500);
     return (
