@@ -81,7 +81,7 @@ export default function Page() {
 
   const { push } = useRouter();
 
-  const { data: user } = useSWR(
+  const { data: user, isLoading } = useSWR(
     `/api/user/with-session`,
     userFetcher,
     {
@@ -123,7 +123,7 @@ export default function Page() {
         )}
       </Head>
       <>
-        {user ? (
+        {!isLoading && user ? (
           <React.Suspense>
             <div className={css.wrapper}>
               <div style={{ paddingTop: "1em" }}>Hello, {user.name}</div>
