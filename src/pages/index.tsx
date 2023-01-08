@@ -112,7 +112,17 @@ export default function Page() {
       </React.Suspense>
     );
   }
-
+  if (isLoading) {
+    return (
+      <React.Suspense>
+        <div className={css.center}>
+          <Flicker className={css.center} text="loading">
+            loading
+          </Flicker>
+        </div>
+      </React.Suspense>
+    );
+  }
   return (
     <>
       <Head>
