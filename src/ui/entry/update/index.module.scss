@@ -1,0 +1,23 @@
+.cancelicon{
+  position: relative;
+  top: -8px;
+}
+.errormsg{
+  display: flex;
+  color: #fa7070;
+}
+.submiticon{
+  position: relative;
+  top: 2px;
+  padding-right: 1px;
+}
+.private{
+  line-height: 2; 
+  padding-right: 15px; 
+  cursor: pointer;
+}
+.public{
+  line-height: 2; 
+  padding-right: 20px;
+  cursor: pointer;
+}

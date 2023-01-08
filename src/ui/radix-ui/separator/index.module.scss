@@ -1,0 +1,18 @@
+@import "styles/colors.module";
+
+.root{
+  background-color: $bg-dark;
+  margin: 2em 0;
+  z-index: -1;
+  @media screen and (prefers-color-scheme: dark){
+    background-color: $bg-light;
+  }
+}
+.root[data-orientation='horizontal'] {
+  height: 1px;
+  width: 100%;
+}
+.root[data-orientation='vertical'] {
+  height: 100%;
+  width: 1px;
+}

@@ -1,0 +1,39 @@
+@import "styles/colors.module";
+
+.wrapper{
+  display: inline-flex;
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+.opensort{
+  margin-bottom: .5em;
+  background-color: transparent;
+  color: $bg-dark;
+  border: 0;
+  @media (prefers-color-scheme: dark){
+    color: $color-primary;
+    background-color: $bg-dark;
+  }
+  background-color: $bg-light;
+  padding: 4px 8px;
+  border-radius: .5em;
+  cursor: pointer;
+}
+.sortoption{
+  margin-bottom: .5em;
+  background-color: #000;
+  color: $bg-dark;
+  border: 0;
+  @media (prefers-color-scheme: dark){
+    color: $color-primary;
+    background-color: $bg-dark;
+  }
+  background-color: $bg-light;
+  padding: 4px 8px;
+  border-radius: .5em;
+  cursor: pointer;
+}
+.sorticon{
+  vertical-align: -.1em;
+  font-size: 1.1em;
+}

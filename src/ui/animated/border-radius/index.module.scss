@@ -1,0 +1,16 @@
+// original source :: https://codepen.io/myjessijess/pen/MWWgMwL
+
+$primary-light: #f0e7e7e0;
+$secondary-light: #e7e3e3e3;
+$primary-dark: #33132842;
+$secondary-dark: #5a2b753f;
+
+.border {
+  @media (prefers-color-scheme: dark){
+    background: linear-gradient(45deg, $primary-dark 0%, $secondary-dark 100%);
+  }
+  background: linear-gradient(45deg, $primary-light 0%, $secondary-light 100%);
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  transition: all 1s ease-in-out;
+}
+

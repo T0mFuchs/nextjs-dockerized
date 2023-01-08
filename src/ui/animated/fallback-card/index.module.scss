@@ -1,0 +1,25 @@
+.animated{
+  border-radius: .5em;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background-color: #f6f7f8;
+  background: linear-gradient(to right, #eeeeee 8%, #bbbbbb 18%, #eeeeee 33%);
+  position: relative;
+  max-width: 60vw;
+  max-height: 600px;
+  @media (max-width: 600px){
+    min-width: 100%;
+  }
+  margin: auto;
+}
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -700px 0
+  }
+  100% {
+    background-position: 700px 0
+  }
+}

@@ -1,0 +1,59 @@
+@import "styles/colors.module";
+
+.form{
+  position: relative;
+  display: grid;
+}
+.legend{
+  position: absolute;
+  top: -1.4em;
+}
+.cancel{
+  z-index: 1;
+  position: absolute;
+  right: -2px;
+  border: none;
+  background: none;
+  top: 2px;
+  font-size: 20px;
+  color: $color-secondary;
+  cursor: pointer;
+}
+.input{
+  border: none;
+  background: none;
+}
+.textarea{
+  border: none;
+  background: none;
+  margin-bottom: 20px;
+  height: 35vh;
+}
+.submit{
+  border: none;
+  background: none;
+  position: absolute;
+  right: -4px;
+  bottom: -2px;
+  font-size: 15px;
+  color: #70deaf;
+  cursor: pointer;
+}
+.checkboxwrapper{
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  display: inline-flex;
+  cursor: pointer;
+}
+.checkboxroot{
+  border: none;
+  border-radius: 6px;
+  width: 20px;
+  height: 20px;
+}
+.checkboxlabel{
+  position: relative;
+  top: -7px;
+  left: 3px;
+}
