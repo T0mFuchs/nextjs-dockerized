@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import { useRouter } from "next/router";
+import { useInView } from "framer-motion";
 import { dateFromObjectId } from "lib/dateFromObjectId";
 import { CheckSVG, CreateSVG, CrossSVG, UpdateSVG } from "ui";
 
@@ -85,8 +86,10 @@ export default function Page() {
     `/api/user/with-session`,
     userFetcher,
     {
-      loadingTimeout: 1500,
-      onLoadingSlow: () => <div className={css.center}>cluster starting...</div>,
+      loadingTimeout: 750,
+      onLoadingSlow: () => (
+        <div className={css.center}>cluster starting...</div>
+      ),
     }
   );
   const {
@@ -206,106 +209,18 @@ export default function Page() {
                     <Search data={entries} />
                   </span>
 
-                  {entries.map((entry: EntryType) => (
-                    <div key={entry.title} style={{ padding: "1em" }}>
-                      <React.Suspense>
-                        {!isValidating ? (
-                          <>
-                            <div
-                              aria-label="drag action icon delete"
-                              style={{
-                                position: "absolute",
-                                fontSize: "4em",
-                                paddingTop: 14,
-                                paddingLeft: 200,
-                                zIndex: -1,
-                              }}
-                            >
-                              <CrossSVG />
-                            </div>
-                            <div
-                              aria-label="drag action icon edit"
-                              style={{
-                                position: "absolute",
-                                fontSize: "4.5em",
-                                paddingTop: 19,
-                                paddingLeft: 50,
-                                zIndex: -1,
-                              }}
-                            >
-                              <UpdateSVG />
-                            </div>
-                          </>
-                        ) : null}
-                        <MotionDiv
-                          className={styles.Card}
-                          drag="x"
-                          dragConstraints={{
-                            left: -100,
-                            right: 100,
-                          }}
-                          dragElastic={0.1}
-                          dragSnapToOrigin
-                          onDragEnd={(event: any, info: PanInfo) => {
-                            if (info.offset.x > 200) {
-                              setUpdate(entry);
-                              setOpenUpdate(true);
-                            }
-                            if (info.offset.x < -200) {
-                              setUpdate(entry);
-                              setOpenDelete(true);
-                            }
-                          }}
-                        >
-                          <div
-                            className={styles.H2}
-                            style={{
-                              fontSize: "2em",
-                              position: "relative",
-                              bottom: 7,
-                            }}
-                            aria-label="entry title"
-                          >
-                            <Link
-                              prefetch={false}
-                              href={`/${user._id}/entry/${entry.title}`}
-                              className={styles.Link}
-                              title={entry.title}
-                            >
-                              {entry.title}
-                            </Link>
-                          </div>
-                          <p aria-label="entry body" className={css.limiter}>
-                            {entry.body}
-                          </p>
-                          <div
-                            aria-label="entry date"
-                            style={{
-                              fontSize: ".6em",
-                              position: "relative",
-                              top: 9,
-                            }}
-                          >
-                            {dateFromObjectId(entry._id).getDate()}
-                            {" / "}
-                            {dateFromObjectId(entry._id).getMonth() + 1}
-                            {" / "}
-                            {dateFromObjectId(entry._id).getFullYear()}
-                            <span style={{ padding: "0 9px" }}>{"|"}</span>
-                            {dateFromObjectId(entry._id).getHours()}
-                            {" : "}
-                            {dateFromObjectId(entry._id).getMinutes() < 9
-                              ? "0" + dateFromObjectId(entry._id).getMinutes()
-                              : dateFromObjectId(entry._id).getMinutes()}
-                            {" : "}
-                            {dateFromObjectId(entry._id).getSeconds() < 9
-                              ? "0" + dateFromObjectId(entry._id).getSeconds()
-                              : dateFromObjectId(entry._id).getSeconds()}
-                          </div>
-                        </MotionDiv>
-                      </React.Suspense>
-                    </div>
-                  ))}
+                  <>
+                    {entries.map((entry: EntryType) => (
+                      <Entry
+                        key={entry.title}
+                        entry={entry}
+                        userId={user._id}
+                        setUpdate={setUpdate}
+                        setOpenDelete={setOpenDelete}
+                        setOpenUpdate={setOpenUpdate}
+                      />
+                    ))}
+                  </>
                 </React.Suspense>
               ) : (
                 <React.Suspense>
@@ -343,5 +258,133 @@ export default function Page() {
         )}
       </>
     </>
+  );
+}
+
+function Entry({
+  key,
+  entry,
+  userId,
+  setUpdate,
+  setOpenUpdate,
+  setOpenDelete,
+}: {
+  key: any;
+  entry: EntryType;
+  userId: any;
+  setUpdate: (entry: EntryType) => void;
+  setOpenUpdate: (open: boolean) => void;
+  setOpenDelete: (open: boolean) => void;
+}) {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref);
+
+  return (
+    <div>
+      <div
+        ref={ref}
+        key={key}
+        style={{
+          padding: "1em",
+          opacity: isInView ? 1 : 0,
+          transition: "300ms ease-in",
+        }}
+      >
+        <React.Suspense>
+          <>
+            <div
+              aria-label="drag action icon delete"
+              style={{
+                position: "absolute",
+                fontSize: "4em",
+                paddingTop: 14,
+                paddingLeft: 200,
+                zIndex: -1,
+              }}
+            >
+              <CrossSVG />
+            </div>
+            <div
+              aria-label="drag action icon edit"
+              style={{
+                position: "absolute",
+                fontSize: "4.5em",
+                paddingTop: 19,
+                paddingLeft: 50,
+                zIndex: -1,
+              }}
+            >
+              <UpdateSVG />
+            </div>
+            <MotionDiv
+              className={styles.Card}
+              drag="x"
+              dragConstraints={{
+                left: -100,
+                right: 100,
+              }}
+              dragElastic={0.1}
+              dragSnapToOrigin
+              onDragEnd={(event: any, info: PanInfo) => {
+                if (info.offset.x > 200) {
+                  setUpdate(entry);
+                  setOpenUpdate(true);
+                }
+                if (info.offset.x < -200) {
+                  setUpdate(entry);
+                  setOpenDelete(true);
+                }
+              }}
+            >
+              <div
+                className={styles.H2}
+                style={{
+                  fontSize: "2em",
+                  position: "relative",
+                  bottom: 7,
+                }}
+                aria-label="entry title"
+              >
+                <Link
+                  prefetch={false}
+                  href={`/${userId}/entry/${entry.title}`}
+                  className={styles.Link}
+                  title={entry.title}
+                >
+                  {entry.title}
+                </Link>
+              </div>
+              <p aria-label="entry body" className={css.limiter}>
+                {entry.body}
+              </p>
+              <div
+                aria-label="entry date"
+                style={{
+                  fontSize: ".6em",
+                  position: "relative",
+                  top: 9,
+                }}
+              >
+                {dateFromObjectId(entry._id).getDate()}
+                {" / "}
+                {dateFromObjectId(entry._id).getMonth() + 1}
+                {" / "}
+                {dateFromObjectId(entry._id).getFullYear()}
+                <span style={{ padding: "0 9px" }}>{"|"}</span>
+                {dateFromObjectId(entry._id).getHours()}
+                {" : "}
+                {dateFromObjectId(entry._id).getMinutes() < 9
+                  ? "0" + dateFromObjectId(entry._id).getMinutes()
+                  : dateFromObjectId(entry._id).getMinutes()}
+                {" : "}
+                {dateFromObjectId(entry._id).getSeconds() < 9
+                  ? "0" + dateFromObjectId(entry._id).getSeconds()
+                  : dateFromObjectId(entry._id).getSeconds()}
+              </div>
+            </MotionDiv>
+          </>
+        </React.Suspense>
+      </div>
+    </div>
   );
 }
