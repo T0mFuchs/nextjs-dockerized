@@ -206,7 +206,7 @@ export default function Page() {
                       setSortValue={setSortValue}
                     />
 
-                    <Search data={entries} />
+                    <Search data={entries} route={`${user._id}/entry/`} />
                   </span>
 
                   <>

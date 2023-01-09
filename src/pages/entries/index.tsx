@@ -85,7 +85,7 @@ export default function Page() {
         </div>
         {allPublicEntries ? (
           <React.Suspense>
-            <Search data={allPublicEntries} />
+            <Search data={allPublicEntries} route={`/entry/`} />
           </React.Suspense>
         ) : null}
 

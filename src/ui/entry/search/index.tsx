@@ -7,7 +7,7 @@ import type { EntryType } from "types/Entry";
 
 import css from "./index.module.scss";
 
-export default function Search({ data }: { data: EntryType[] }) {
+export default function Search({ data, route }: { data: EntryType[], route: string }) {
   const [current, setCurrent] = React.useState("");
   const [show, setShow]: any = React.useState([]);
   const [filtered, setFiltered]: any = React.useState([]);
@@ -69,7 +69,7 @@ export default function Search({ data }: { data: EntryType[] }) {
               <div key={entry.title} style={{ padding: "1em 1.5em 0 1em" }}>
                 <div className={css.Card}>
                   <Link
-                    href={`/entry/${entry.title}`}
+                    href={`${route}${entry.title}`}
                     prefetch={false}
                     className={`${css.item}`}
                   >
