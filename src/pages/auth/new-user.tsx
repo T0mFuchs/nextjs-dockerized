@@ -19,7 +19,11 @@ const userFetcher: Fetcher<UserType, string> = async (url: string) =>
   await fetch(url, { method: "POST" }).then((res) => res.json());
 
 export default function Event() {
-  const { data: user, error, isLoading } = useSWR(`/api/user/with-session`, userFetcher);
+  const {
+    data: user,
+    error,
+    isLoading,
+  } = useSWR(`/api/user/with-session`, userFetcher);
   const { push } = useRouter();
 
   if (isLoading) return <></>;

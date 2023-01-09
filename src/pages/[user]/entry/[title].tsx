@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (
 const fetcher = async (url: string) =>
   await fetch(url, { method: "POST" }).then((res) => res.json());
 
-  const userFetcher: Fetcher<UserType, string> = async (url: string) =>
+const userFetcher: Fetcher<UserType, string> = async (url: string) =>
   await fetch(url, { method: "POST" }).then((res) => res.json());
 
 export default function Page({
@@ -53,11 +53,12 @@ export default function Page({
   const [update, setUpdate]: any = React.useState();
   const [visibility, setVisibility] = React.useState(false);
 
-  const { data: user, error, isLoading } = useSWR(`/api/user/with-session`, userFetcher);
   const {
-    data: entry,
-    mutate,
-  } = useSWR(
+    data: user,
+    error,
+    isLoading,
+  } = useSWR(`/api/user/with-session`, userFetcher);
+  const { data: entry, mutate } = useSWR(
     user && user._id === userId ? `/api/${user._id}/entry/${title}` : null,
     fetcher
   );

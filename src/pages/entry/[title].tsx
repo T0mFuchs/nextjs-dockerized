@@ -65,7 +65,10 @@ export default function Page({ title }: { title: string }) {
     update ? "/api/entries" : null,
     entriesFetcher
   );
-  const { data: user, isLoading } = useSWR("/api/user/with-session", userFetcher);
+  const { data: user, isLoading } = useSWR(
+    "/api/user/with-session",
+    userFetcher
+  );
 
   const refresh = () => {
     if (visibility) {

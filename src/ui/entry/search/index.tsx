@@ -7,7 +7,13 @@ import type { EntryType } from "types/Entry";
 
 import css from "./index.module.scss";
 
-export default function Search({ data, route }: { data: EntryType[], route: string }) {
+export default function Search({
+  data,
+  route,
+}: {
+  data: EntryType[];
+  route: string;
+}) {
   const [current, setCurrent] = React.useState("");
   const [show, setShow]: any = React.useState([]);
   const [filtered, setFiltered]: any = React.useState([]);

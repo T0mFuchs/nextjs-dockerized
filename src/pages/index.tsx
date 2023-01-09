@@ -88,7 +88,14 @@ export default function Page() {
     {
       loadingTimeout: 750,
       onLoadingSlow: () => (
-        <div className={css.center}>cluster starting...</div>
+        <div
+          className={css.center}
+          style={{
+            position: "fixed",
+          }}
+        >
+          cluster starting...
+        </div>
       ),
     }
   );
